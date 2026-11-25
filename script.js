@@ -277,6 +277,11 @@ let remainingAttempts = 3;
 let questionAnswered = false;
 let failedAttempts = [];
 
+// Read-only tracking for the badge system (badges.js). Does not affect scoring or timers.
+let gameStartTime = 0;
+let lastAnswerTime = 0;
+let buzzedAnswers = 0;
+
 const modalOverlay = document.getElementById("game-modal-overlay");
 const modalCloseBtn = document.getElementById("modal-close-btn");
 const modalContent = document.getElementById("game-modal-content");
@@ -341,6 +346,9 @@ function startGame(gameId) {
   remainingAttempts = 3;
   questionAnswered = false;
   failedAttempts = [];
+  gameStartTime = Date.now();
+  lastAnswerTime = 0;
+  buzzedAnswers = 0;
 
   const modalContainer = document.querySelector(".game-modal-container");
   if (modalContainer && currentGame.theme) {
@@ -535,6 +543,11 @@ function handleOptionSelect(selectedIndex, selectedBtn, allOptionBtns) {
   const feedbackEl = document.getElementById("game-feedback");
   const actionRow = document.getElementById("game-action-row");
   const footerScore = document.getElementById("footer-score-val");
+
+  lastAnswerTime = Date.now();
+  if (currentGame.hasBuzzer && buzzerActivated) {
+    buzzedAnswers++;
+  }
 
   // Special logic for GUESS IT IN 3!
   if (currentGame.attemptsPerQuestion) {
@@ -733,6 +746,16 @@ function endGame() {
       <span class="modal-score-text">FINAL SCORE: ${currentScore}</span>
     </div>
   `;
+
+  if (window.UptimeBadges) {
+    window.UptimeBadges.recordGameResult({
+      gameId: currentGame.id,
+      score: currentScore,
+      totalQuestions: total,
+      buzzedAnswers: buzzedAnswers,
+      elapsedMs: lastAnswerTime ? lastAnswerTime - gameStartTime : Infinity
+    });
+  }
 
   const playAgainBtn = document.getElementById("play-again-btn");
   if (playAgainBtn) {
