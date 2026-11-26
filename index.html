@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#f7f7f5">
   <meta name="description" content="The Uptime Ultimatum — six rounds of fast-paced games by Cisco Community, VIT Bhopal.">
   <title>The Uptime Ultimatum | Cisco Community VIT Bhopal</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -22,8 +23,7 @@
     <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
     <nav class="navigation">
       <a href="#experience">ABOUT</a>
-        <a href="#games">GAMES</a>
-        <a href="#achievements">BADGES</a>
+      <a href="#games">GAMES</a>
       <a href="#details">EVENT DETAILS</a>
       <a href="#venue">VENUE</a>
       <a class="register-button" href="https://docs.google.com/forms/d/e/1FAIpQLScmSi_2gMoX15ofUTDwUZg8OPLChCeLgkGXQW-R1bhaX4Uibw/viewform" target="_blank" rel="noopener noreferrer">REGISTER NOW <span>↗</span></a>
@@ -150,28 +150,92 @@
       <p class="surprise-note">✳ &nbsp; AND YES, THERE MAY BE SURPRISE ROUNDS. STAY READY.</p>
     </section>
 
-    <!-- Achievements Dashboard -->
-    <section class="achievements-section page-shell" id="achievements" aria-labelledby="achievements-title">
-      <div class="section-heading">
+    <!-- The Achievement Vault (Badge Collection Section) -->
+    <section class="vault-section page-shell" id="achievement-vault" aria-labelledby="vault-heading">
+      <div class="section-heading vault-heading">
         <div>
-          <p class="section-kicker">BONUS / ACHIEVEMENTS</p>
-          <h2 id="achievements-title">SIX BADGES.<br><em>COLLECT THEM ALL.</em></h2>
+          <p class="section-kicker">01B / DIGITAL ACHIEVEMENTS</p>
+          <h2 id="vault-heading">YOUR ACHIEVEMENT<br><em>VAULT.</em></h2>
         </div>
-        <p class="section-description">Score perfect in a game to unlock its badge. Retry as often as you like. Once earned, a badge is yours to keep.</p>
+        <p class="section-description vault-subtitle">Play the games. Earn your badges. Unlock something extraordinary.</p>
       </div>
 
-      <div class="badge-progress-panel">
-        <div class="badge-progress-top">
-          <span class="badge-progress-label">BADGES UNLOCKED</span>
-          <strong class="badge-progress-count" id="badge-count" aria-live="polite">0 / 6</strong>
+      <!-- Progress Tracker -->
+      <div class="vault-tracker-card" id="vault-tracker-card">
+        <div class="vault-tracker-top">
+          <div class="vault-tracker-label-group">
+            <span class="vault-tracker-kicker">QUEST PROGRESS</span>
+            <h3 class="vault-tracker-title">BADGES COLLECTED</h3>
+          </div>
+          <div class="vault-tracker-metrics">
+            <strong class="vault-tracker-count" id="badges-collected-count">0 / 6</strong>
+            <span class="vault-tracker-percent" id="badges-collected-percent">0%</span>
+          </div>
         </div>
-        <div class="badge-progress-track" id="badge-progress" role="progressbar" aria-label="Badges unlocked" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
-          <span class="badge-progress-fill" id="badge-progress-fill"></span>
+
+        <div class="vault-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" id="vault-progressbar">
+          <div class="vault-progress-fill" id="vault-progress-fill" style="width: 0%;"></div>
         </div>
-        <p class="badge-progress-message" id="badge-progress-message">PLAY ANY GAME AND SCORE PERFECT TO EARN YOUR FIRST BADGE.</p>
+
+        <div class="vault-quest-complete-banner" id="vault-quest-banner" hidden>
+          <span class="quest-banner-spark" aria-hidden="true">✦</span>
+          <span>CONGRATULATIONS! YOU HAVE COMPLETED THE QUEST.</span>
+          <span class="vault-bonus-status-pill" id="vault-bonus-status-pill" hidden>7TH BADGE UNLOCKED</span>
+        </div>
       </div>
 
-      <ul class="badge-grid" id="badge-grid" aria-label="Game badges"></ul>
+      <!-- 3-Column Responsive Badge Grid -->
+      <div class="badge-grid" id="badge-grid" aria-live="polite">
+        <!-- Badge cards rendered dynamically by script.js -->
+      </div>
+
+      <!-- Seventh Exclusive Bonus Badge Slot (Master of the Protocol) -->
+      <div class="vault-bonus-section" id="vault-bonus-section" aria-live="polite">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </section>
+
+    <!-- Final Easter Egg Section: The Final Protocol -->
+    <section class="final-protocol-section page-shell" id="final-protocol" aria-labelledby="final-protocol-heading">
+      <div class="final-protocol-card is-locked" id="final-protocol-card">
+        <div class="protocol-grid-bg" aria-hidden="true"></div>
+        <div class="protocol-content">
+          <div class="protocol-top-row">
+            <span class="protocol-kicker">CLASSIFIED OVERRIDE // ENDGAME</span>
+            <span class="protocol-status-pill" id="protocol-status-pill">
+              <span class="protocol-status-dot" aria-hidden="true"></span>
+              <span id="protocol-status-text">ENCRYPTED · 0 / 6 BADGES</span>
+            </span>
+          </div>
+
+          <div class="protocol-main-row">
+            <div class="protocol-lock-emblem" id="protocol-lock-emblem" aria-hidden="true">
+              <svg class="protocol-padlock-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle class="padlock-aura" cx="40" cy="40" r="36" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4" />
+                <path class="padlock-shackle" d="M27 36V26C27 18.8203 32.8203 13 40 13C47.1797 13 53 18.8203 53 26V36" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" />
+                <rect class="padlock-body" x="21" y="35" width="38" height="30" rx="7" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="3" />
+                <circle class="padlock-keyhole" cx="40" cy="48" r="3.5" fill="currentColor" />
+                <path class="padlock-keyslot" d="M40 51.5V57" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+              </svg>
+            </div>
+
+            <div class="protocol-copy">
+              <h2 id="final-protocol-heading">THE FINAL <em>PROTOCOL</em></h2>
+              <p class="protocol-message" id="protocol-message">Six challenges completed. Six badges collected. But there's one final mystery waiting for you.</p>
+              <div class="protocol-access-granted" id="protocol-access-granted" hidden>
+                <span class="access-granted-badge">ACCESS GRANTED</span>
+                <span class="access-granted-sub">ALL SIX CLEARANCE KEYS VERIFIED</span>
+              </div>
+            </div>
+
+            <div class="protocol-cta-wrap" id="protocol-cta-wrap" hidden>
+              <button type="button" class="protocol-enter-btn" id="enter-final-protocol-btn">
+                ENTER THE FINAL PROTOCOL <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Mission Section -->
@@ -342,17 +406,15 @@
           </div>
         </article>
 
-        <!-- Google Maps Integration -->
+        <!-- Interactive Satellite Map (Leaflet + Esri World Imagery) -->
         <article class="venue-card map-card">
           <div class="map-wrapper">
-            <iframe
-              src="https://www.maps.google.com/maps?q=Academic+Block+2+VIT+Bhopal+University+Kothrikalan+Sehore+Madhya+Pradesh&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
-              title="Google Map location of Academic Block 2, VIT Bhopal University"
-              class="venue-map-iframe"
-              loading="lazy"
-              allowfullscreen
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+            <div
+              id="venue-leaflet-map"
+              class="venue-leaflet-map"
+              role="region"
+              aria-label="Interactive satellite map of Academic Block-2, VIT Bhopal University">
+            </div>
           </div>
           <div class="venue-map-footer">
             <div class="map-meta">
@@ -433,8 +495,46 @@
     </div>
   </div>
 
-  <div class="badge-toast" id="badge-toast" role="status" aria-live="polite"></div>
-  <script src="badges.js"></script>
+  <!-- Badge Unlock Celebration Modal -->
+  <div id="badge-unlock-modal-overlay" class="badge-unlock-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="badge-unlock-heading">
+    <div class="confetti-stage" id="badge-confetti-stage" aria-hidden="true"></div>
+    <div class="badge-unlock-dialog">
+      <button type="button" class="badge-unlock-close" id="badge-unlock-close-btn" aria-label="Close badge unlock notification">✕</button>
+      <div class="badge-unlock-kicker">ACHIEVEMENT UNLOCKED</div>
+      <h2 class="badge-unlock-heading" id="badge-unlock-heading">NEW BADGE UNLOCKED!</h2>
+      <div class="badge-unlock-artwork" id="badge-unlock-artwork"></div>
+      <div class="badge-unlock-name" id="badge-unlock-name">LOGIC BADGE</div>
+      <div class="badge-unlock-game" id="badge-unlock-game">EARNED IN ORDER UP!</div>
+      <p class="badge-unlock-desc" id="badge-unlock-desc"></p>
+      <div class="badge-unlock-actions">
+        <button type="button" class="badge-unlock-return-btn" id="badge-unlock-return-btn">
+          RETURN TO GAMES <span>↗</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operation Cisco – The Final Protocol Interactive Mystery Modal -->
+  <div id="final-protocol-modal-overlay" class="protocol-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="protocol-modal-title">
+    <div class="confetti-stage" id="protocol-confetti-stage" aria-hidden="true"></div>
+    <div class="protocol-modal-dialog operation-cisco-dialog">
+      <button type="button" class="protocol-modal-close" id="protocol-modal-close-btn" aria-label="Close Operation Cisco modal">✕</button>
+      <div class="operation-cisco-body" id="operation-cisco-body">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Completion Certificate Viewer Modal -->
+  <div id="certificate-modal-overlay" class="protocol-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cert-modal-heading">
+    <div class="protocol-modal-dialog operation-cisco-dialog certificate-dialog">
+      <button type="button" class="protocol-modal-close" id="certificate-modal-close-btn" aria-label="Close completion certificate">✕</button>
+      <div id="certificate-modal-body"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="operation-cisco-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
