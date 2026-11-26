@@ -22,7 +22,8 @@
     <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
     <nav class="navigation">
       <a href="#experience">ABOUT</a>
-      <a href="#games">GAMES</a>
+        <a href="#games">GAMES</a>
+        <a href="#achievements">BADGES</a>
       <a href="#details">EVENT DETAILS</a>
       <a href="#venue">VENUE</a>
       <a class="register-button" href="https://docs.google.com/forms/d/e/1FAIpQLScmSi_2gMoX15ofUTDwUZg8OPLChCeLgkGXQW-R1bhaX4Uibw/viewform" target="_blank" rel="noopener noreferrer">REGISTER NOW <span>↗</span></a>
@@ -147,6 +148,30 @@
         </button>
       </div>
       <p class="surprise-note">✳ &nbsp; AND YES, THERE MAY BE SURPRISE ROUNDS. STAY READY.</p>
+    </section>
+
+    <!-- Achievements Dashboard -->
+    <section class="achievements-section page-shell" id="achievements" aria-labelledby="achievements-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">BONUS / ACHIEVEMENTS</p>
+          <h2 id="achievements-title">SIX BADGES.<br><em>COLLECT THEM ALL.</em></h2>
+        </div>
+        <p class="section-description">Score perfect in a game to unlock its badge. Retry as often as you like. Once earned, a badge is yours to keep.</p>
+      </div>
+
+      <div class="badge-progress-panel">
+        <div class="badge-progress-top">
+          <span class="badge-progress-label">BADGES UNLOCKED</span>
+          <strong class="badge-progress-count" id="badge-count" aria-live="polite">0 / 6</strong>
+        </div>
+        <div class="badge-progress-track" id="badge-progress" role="progressbar" aria-label="Badges unlocked" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
+          <span class="badge-progress-fill" id="badge-progress-fill"></span>
+        </div>
+        <p class="badge-progress-message" id="badge-progress-message">PLAY ANY GAME AND SCORE PERFECT TO EARN YOUR FIRST BADGE.</p>
+      </div>
+
+      <ul class="badge-grid" id="badge-grid" aria-label="Game badges"></ul>
     </section>
 
     <!-- Mission Section -->
@@ -408,6 +433,8 @@
     </div>
   </div>
 
+  <div class="badge-toast" id="badge-toast" role="status" aria-live="polite"></div>
+  <script src="badges.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
