@@ -3292,3 +3292,319 @@ button {
   .protocol-enter-btn { width: 100%; justify-content: space-between; }
   .op-seventh-reveal-box { flex-direction: column; text-align: center; }
 }
+
+/* =========================================
+   ACHIEVEMENTS & BADGES (badges.js)
+   ========================================= */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.achievements-section {
+  padding-top: 20px;
+  padding-bottom: 90px;
+}
+
+.badge-progress-panel {
+  margin-top: 40px;
+  background: #111;
+  color: #fff;
+  border-radius: 20px;
+  padding: 24px clamp(20px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.badge-progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.badge-progress-label,
+.badge-progress-message {
+  font: 800 12px var(--condensed);
+  letter-spacing: 0.14em;
+  color: #888;
+  margin: 0;
+}
+
+.badge-progress-count {
+  font: clamp(34px, 4.4vw, 52px) / 1 var(--display);
+  letter-spacing: -0.01em;
+}
+
+.badge-progress-track {
+  height: 12px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.badge-progress-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--lime), var(--purple));
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.badge-grid {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.badge-card {
+  border-radius: 20px;
+  padding: 26px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.badge-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg, transparent 0 12px, rgba(255, 255, 255, 0.06) 12px 14px);
+  pointer-events: none;
+}
+
+.badge-card > * {
+  position: relative;
+}
+
+/* Locked: neutral, dashed, clearly inactive */
+.badge-card.is-locked {
+  background: #fff;
+  color: #111;
+  border: 2px dashed var(--border-light);
+}
+
+.badge-card.is-locked .badge-medal {
+  background: var(--gray);
+  color: var(--ghost-gray);
+  border-color: var(--border-light);
+}
+
+.badge-card.is-locked .badge-name {
+  color: var(--ghost-gray);
+}
+
+/* Unlocked: takes the matching game card colour */
+.badge-card.is-unlocked {
+  border: 2px solid transparent;
+}
+
+.badge-card.is-unlocked:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.12);
+}
+
+.badge-card.is-unlocked.badge-lime   { background: var(--lime);   color: #111; }
+.badge-card.is-unlocked.badge-purple { background: var(--purple); color: #fff; }
+.badge-card.is-unlocked.badge-orange { background: var(--orange); color: #fff; }
+.badge-card.is-unlocked.badge-pale   { background: var(--gray);   color: #111; }
+
+.badge-medal {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  border: 3px solid #111;
+  background: #fff;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.badge-card.is-unlocked .badge-medal {
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.35);
+}
+
+.badge-medal-number {
+  font: 30px / 1 var(--display);
+}
+
+.badge-medal-icon {
+  font: 800 14px / 1 var(--condensed);
+  margin-top: 4px;
+}
+
+.badge-name {
+  font: 26px / 1.05 var(--display);
+  letter-spacing: -0.01em;
+}
+
+.badge-game {
+  font: 800 12px var(--condensed);
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+}
+
+.badge-status {
+  margin-top: 10px;
+  font: 800 11.5px var(--condensed);
+  letter-spacing: 0.14em;
+  padding: 5px 12px;
+  border-radius: 99px;
+  background: #111;
+  color: #fff;
+}
+
+.badge-card.is-locked .badge-status {
+  background: var(--gray);
+  color: #666;
+}
+
+.badge-requirement {
+  font-size: 12.5px;
+  margin-top: 4px;
+  opacity: 0.75;
+}
+
+.badge-card.just-unlocked {
+  animation: badge-pop 0.7s cubic-bezier(0.22, 1.4, 0.36, 1);
+}
+
+.badge-card.just-unlocked .badge-medal {
+  animation: badge-spin 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes badge-pop {
+  0%   { transform: scale(0.9); }
+  60%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes badge-spin {
+  from { transform: rotateY(180deg) scale(0.7); }
+  to   { transform: rotateY(0) scale(1); }
+}
+
+/* Unlock notification (sits above the game modal) */
+.badge-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #111;
+  color: #fff;
+  border-radius: 99px;
+  padding: 10px 24px 10px 10px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  transform: translate(-50%, 140%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.45s cubic-bezier(0.22, 1.2, 0.36, 1), opacity 0.3s;
+}
+
+.badge-toast:empty {
+  display: none;
+}
+
+.badge-toast.is-visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.badge-toast-medal {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.badge-toast-medal.badge-lime   { background: var(--lime);   color: #111; }
+.badge-toast-medal.badge-purple { background: var(--purple); color: #fff; }
+.badge-toast-medal.badge-orange { background: var(--orange); color: #fff; }
+.badge-toast-medal.badge-pale   { background: var(--gray);   color: #111; }
+
+.badge-toast-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-toast-kicker {
+  font: 800 11px var(--condensed);
+  letter-spacing: 0.14em;
+  color: var(--lime);
+}
+
+.badge-toast-text strong {
+  font: 22px / 1.1 var(--display);
+  letter-spacing: 0.01em;
+}
+
+/* Badge note on the game results screen */
+.results-badge-note {
+  font: 800 13px / 1.4 var(--condensed);
+  letter-spacing: 0.1em;
+  max-width: 460px;
+  margin: -8px 0 24px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.results-badge-note[data-tone="success"] {
+  background: #111;
+  color: var(--lime);
+}
+
+@media (max-width: 900px) {
+  .badge-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .badge-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .badge-toast {
+    width: calc(100% - 32px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge-card.just-unlocked,
+  .badge-card.just-unlocked .badge-medal {
+    animation: none;
+  }
+
+  .badge-progress-fill,
+  .badge-toast {
+    transition: none;
+  }
+}
